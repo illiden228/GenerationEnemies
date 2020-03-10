@@ -6,14 +6,16 @@ using UnityEngine.UI;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private float _delay;
+    [SerializeField] private Player _player;
     [SerializeField] private GameObject _enemyExample;
     [SerializeField] private Text _timeText;
+
     private float _lastSpawn;
-    private Transform[] _spawnDots;
+    private Transform[] _spawnPoints;
     
     void Start()
     {
-        _spawnDots = GetComponentsInChildren<Transform>();
+        _spawnPoints = GetComponentsInChildren<Transform>();
     }
 
     void Update()
@@ -21,9 +23,10 @@ public class Spawner : MonoBehaviour
         _timeText.text = Mathf.Ceil(Time.time).ToString();
         if (_lastSpawn >= _delay)
         {
-            foreach(Transform spawnDot in _spawnDots)
+            foreach(Transform spawnDot in _spawnPoints)
             {
-                Instantiate(_enemyExample, spawnDot);
+                var enemy = Instantiate(_enemyExample, spawnDot).GetComponent<Enemy>();
+                enemy.SetTarget(_player);
             }
             _lastSpawn = 0;
         }

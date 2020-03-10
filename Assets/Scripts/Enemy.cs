@@ -5,13 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    private Transform _target;
-    private Vector3 _targetDirection;
 
-    private void Start()
-    {
-        SetTarget(FindObjectOfType<Player>());
-    }
+    private Transform _target;
 
     private void Update()
     {
@@ -27,7 +22,10 @@ public class Enemy : MonoBehaviour
     public void SetTarget(Player target)
     {
         _target = target.transform;
-        _targetDirection = new Vector3(_target.position.x, transform.position.y, _target.position.z);
     }
 
+    public void TakeDamage()
+    {
+        Destroy(gameObject);
+    }
 }
